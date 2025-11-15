@@ -4,5 +4,5 @@ export type Positions = {
     id: number;
     x: number;
     y: number;
-    created_by: User;
+    user_id: User;
 };

@@ -4,29 +4,32 @@ import { Link, useNavigate } from "react-router";
 import authService from "../services/supabase/authService";
 
 export default function Register() {
-    const formRef = useRef<HTMLFormElement>(null);
-    const navigate = useNavigate();
+    const formRef = useRef<HTMLFormElement>(null); //referencia al formulario
+    const navigate = useNavigate(); //navegacion
 
     const handleSubmit = async (e: FormEvent) => {
+        //manejo de envio
         e.preventDefault();
-        const formData = new FormData(formRef.current!);
+        const formData = new FormData(formRef.current!); //obtiene datos del formulario
         const dataObj = {
+            //crea objeto
             username: formData.get("username") as string,
             email: formData.get("email") as string,
             password: formData.get("password") as string,
-            letter: (formData.get("letter") as string)[0],
+            letter: (formData.get("letter") as string)[0], //obtiene letra
             color: formData.get("color") as string,
         };
-        console.info("Form Data:", dataObj);
+        console.info("Form Data:", dataObj); //imprime datos del formulario
 
         try {
-            const result = await authService.signUp(dataObj.email as string, dataObj.password as string, dataObj);
+            const result = await authService.signUp(dataObj.email as string, dataObj.password as string, dataObj); //registra usuario
 
             if (result.success) {
-                console.info("User registered successfully:", result);
-                navigate("/sign-in");
+                //si se registra correctamente
+                console.info("User registered successfully:", result); //imprime resultado
+                navigate("/sign-in"); //navega a login
             } else {
-                console.error("Registration failed:", result.error);
+                console.error("Registration failed:", result.error); //imprime error
             }
         } catch (error) {
             console.error("Registration failed:", error);

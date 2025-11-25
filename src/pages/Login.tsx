@@ -4,30 +4,32 @@ import { Link, useNavigate } from "react-router";
 import authService from "../services/supabase/authService";
 
 export default function Login() {
-    const formRef = useRef<HTMLFormElement>(null);
-    const navigate = useNavigate();
+    const formRef = useRef<HTMLFormElement>(null); //referencia al formulario
+    const navigate = useNavigate(); //navegacion
 
     const handleSubmit = async (e: FormEvent) => {
+        //manejo de envio
         e.preventDefault();
-        const formData = new FormData(formRef.current!);
-        const email = formData.get("email");
-        const password = formData.get("password");
-        console.info("Email:", email);
-        console.info("Password:", password);
+        const formData = new FormData(formRef.current!); //obtiene datos del formulario
+        const email = formData.get("email"); //obtiene email
+        const password = formData.get("password"); //obtiene password
+        console.info("Email:", email); //imprime email
+        console.info("Password:", password); //imprime password
 
         try {
-            const result = await authService.signIn(email as string, password as string);
+            const result = await authService.signIn(email as string, password as string); //inicia sesion
 
             if (result.success) {
-                console.info("User signed in successfully:", result);
-                localStorage.setItem("user", JSON.stringify(result.data));
-                navigate("/canvas");
+                //si se inicia sesion correctamente
+                console.info("User signed in successfully:", result); //imprime resultado
+                localStorage.setItem("user", JSON.stringify(result.data)); //guarda usuario
+                navigate("/canvas"); //navega a canvas
             } else {
-                console.error("Sign-in failed:", result.error);
+                console.error("Sign-in failed:", result.error); //imprime error
                 // Aquí puedes mostrar un mensaje de error al usuario
             }
         } catch (error) {
-            console.error("Sign-in failed:", error);
+            console.error("Sign-in failed:", error); //imprime error
         }
     };
 
@@ -40,6 +42,7 @@ export default function Login() {
                 </div>
                 <div className="card w-full max-w-md shadow-2xl bg-base-100">
                     <form className="card-body" onSubmit={handleSubmit} ref={formRef}>
+                        {" manejo de envio"}
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Email</span>
